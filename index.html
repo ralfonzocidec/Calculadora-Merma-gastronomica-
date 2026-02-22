@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <!-- Esta metaetiqueta es clave para el responsive design -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Calculadora de Merma 🇻🇪 (Responsive + BCV)</title>
+    <style>
+        /* Reset y estilos base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0;
+            padding: 12px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            max-width: 900px;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        /* Tipografía responsive */
+        h1 {
+            color: #1e3c72;
+            text-align: center;
+            font-size: clamp(1.8rem, 6vw, 2.5rem);
+            margin-bottom: 5px;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #2a5298;
+            font-weight: 600;
+            margin-bottom: 20px;
+            border-bottom: 2px dashed #ffd966;
+            padding-bottom: 12px;
+            font-size: clamp(0.9rem, 4vw, 1.1rem);
+        }
+
+        /* Tarjeta de tasa de cambio - ahora vertical en móvil */
+        .exchange-rate-card {
+            background-color: #1e3c72;
+            color: white;
+            padding: 18px 16px;
+            border-radius: 40px;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 16px rgba(0,20,50,0.2);
+        }
+
+        .exchange-rate-card label {
+            font-weight: 600;
+            color: #ffd966;
+            font-size: clamp(0.9rem, 3.5vw, 1rem);
+            white-space: nowrap;
+        }
+
+        .rate-input-group {
+            display: flex;
+            flex: 2;
+            min-width: 250px;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .rate-input-group input {
+            padding: 12px 16px;
+            border: none;
+            border-radius: 40px;
+            font-weight: bold;
+            text-align: center;
+            font-size: 1.1rem;
+            flex: 1;
+            min-width: 130px;
+        }
+
+        .rate-input-group button {
+            background-color: #ffd966;
+            color: #1e3c72;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 40px;
+            font-weight: bold;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: 0.2s;
+            white-space: nowrap;
+            border: 1px solid transparent;
+            flex: 0 1 auto;
+        }
+
+        .rate-input-group button:hover {
+            background-color: transparent;
+            color: #ffd966;
+            border: 1px solid #ffd966;
+        }
+
+        .date-note {
+            font-size: 0.8rem;
+            color: #a0c4ff;
+            text-align: right;
+            width: 100%;
+        }
+
+        /* Selector de moneda horizontal, adaptable */
+        .currency-selector-wrapper {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .currency-selector-wrapper span:first-child {
+            font-weight: 500;
+            color: #1e3c72;
+        }
+
+        .currency-option {
+            display: inline-block;
+            padding: 8px 18px;
+            border: 2px solid #dee2e6;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+            background-color: white;
+            font-size: 0.95rem;
+        }
+
+        .currency-option.selected {
+            background-color: #2a5298;
+            color: white;
+            border-color: #1e3c72;
+        }
+
+        /* Grid de cálculo: en móvil 1 columna */
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 25px;
+        }
+
+        .input-card {
+            background-color: #f8f9fa;
+            padding: 20px 16px;
+            border-radius: 20px;
+            border-left: 5px solid #2a5298;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.03);
+        }
+
+        .input-card h3 {
+            margin-top: 0;
+            margin-bottom: 18px;
+            color: #1e3c72;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: clamp(1.1rem, 4vw, 1.3rem);
+        }
+
+        .input-group {
+            margin-bottom: 18px;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 6px;
+            color: #333;
+            font-size: 0.95rem;
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 14px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 16px;
+            font-size: 1rem;
+            background-color: white;
+            transition: 0.2s;
+        }
+
+        .input-group input:focus {
+            border-color: #2a5298;
+            box-shadow: 0 0 0 3px rgba(42,82,152,0.15);
+            outline: none;
+        }
+
+        /* Tarjeta de resultados */
+        .results-card {
+            grid-column: span 2;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 24px 18px;
+            border-radius: 28px;
+            text-align: center;
+            box-shadow: 0 12px 20px rgba(0,30,70,0.25);
+        }
+
+        .results-card h2 {
+            margin: 0 0 16px 0;
+            font-size: clamp(1.2rem, 5vw, 1.8rem);
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .result-item {
+            background-color: rgba(255,255,255,0.12);
+            padding: 16px 6px;
+            border-radius: 18px;
+            backdrop-filter: blur(2px);
+        }
+
+        .result-item .label {
+            font-size: 0.8rem;
+            color: #ffd966;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .result-item .value {
+            font-size: clamp(1.2rem, 4vw, 1.8rem);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .result-item .currency {
+            font-size: 0.75rem;
+            color: #a0c4ff;
+        }
+
+        .results-note {
+            margin: 18px 0 0 0;
+            background: rgba(0,0,0,0.2);
+            padding: 10px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+        }
+
+        /* Productos de ejemplo */
+        .example-products {
+            margin-top: 25px;
+            border-top: 2px solid #e9ecef;
+            padding-top: 20px;
+        }
+
+        .example-products h3 {
+            color: #1e3c72;
+            margin-bottom: 12px;
+            font-size: clamp(1rem, 4vw, 1.2rem);
+        }
+
+        .product-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .product-tag {
+            background-color: #e9ecef;
+            padding: 12px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            border: 1px solid #ced4da;
+            transition: 0.2s;
+            font-weight: 500;
+            font-size: 0.95rem;
+            flex: 1 0 auto;
+            max-width: fit-content;
+            text-align: center;
+        }
+
+        .product-tag:hover {
+            background-color: #2a5298;
+            color: white;
+            border-color: #1e3c72;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 25px;
+            color: #6c757d;
+            font-size: 0.8rem;
+        }
+
+        /* ===== MEDIA QUERIES PARA RESPONSIVE ===== */
+        @media (max-width: 700px) {
+            .container {
+                padding: 16px;
+            }
+
+            .calculator-grid {
+                grid-template-columns: 1fr; /* Una sola columna */
+                gap: 20px;
+            }
+
+            .results-card {
+                grid-column: span 1;
+            }
+
+            .results-grid {
+                grid-template-columns: repeat(2, 1fr); /* 2 columnas en resultados */
+                gap: 10px;
+            }
+
+            .exchange-rate-card {
+                flex-direction: column;
+                align-items: stretch;
+                border-radius: 30px;
+                padding: 20px;
+            }
+
+            .exchange-rate-card label {
+                white-space: normal;
+                text-align: center;
+            }
+
+            .rate-input-group {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .rate-input-group input {
+                width: 100%;
+                font-size: 1rem;
+                padding: 14px;
+            }
+
+            .rate-input-group button {
+                width: 100%;
+                padding: 14px;
+            }
+
+            .date-note {
+                text-align: center;
+            }
+
+            .currency-selector-wrapper {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 8px;
+            }
+
+            .container {
+                padding: 12px;
+                border-radius: 24px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .result-item {
+                padding: 12px 4px;
+            }
+
+            .result-item .value {
+                font-size: 1.2rem;
+            }
+
+            .product-tag {
+                padding: 10px 12px;
+                font-size: 0.85rem;
+                flex: 1 1 100%; /* Ocupan todo el ancho si es necesario */
+            }
+        }
+
+        /* Ajuste para pantallas muy pequeñas (menos de 360px) */
+        @media (max-width: 360px) {
+            .results-grid {
+                grid-template-columns: 1fr; /* Una columna */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧮 Calculadora de Merma</h1>
+        <div class="subtitle">🇻🇪 Para la Cocina Venezolana (Tasa BCV) 🇻🇪</div>
+
+        <!-- Tasa de cambio obtenida automáticamente desde la API oficial -->
+        <div class="exchange-rate-card">
+            <label>💵 Tasa USD / VES (BCV oficial):</label>
+            <div class="rate-input-group">
+                <input type="number" id="exchangeRate" step="0.01" min="0" value="60.00">
+                <button id="updateRateBtn">🔄 Actualizar</button>
+            </div>
+            <span id="rateDate" class="date-note">Cargando tasa...</span>
+        </div>
+
+        <!-- Selector rápido de moneda para ingresar precio -->
+        <div class="currency-selector-wrapper">
+            <span>Precio de compra en:</span>
+            <span id="usdOption" class="currency-option selected" onclick="setCurrency('USD')">💵 USD</span>
+            <span id="vesOption" class="currency-option" onclick="setCurrency('VES')">🇻🇪 Bs.</span>
+        </div>
+
+        <!-- Área principal de cálculo -->
+        <div class="calculator-grid">
+            <!-- Columna: Datos del producto -->
+            <div class="input-card">
+                <h3>📦 1. Datos del Producto</h3>
+                <div class="input-group">
+                    <label>🍖 Producto:</label>
+                    <input type="text" id="productName" placeholder="Ej: Pollo, Plátano..." value="Pollo">
+                </div>
+                <div class="input-group">
+                    <label>⚖️ Peso Bruto (kg):</label>
+                    <input type="number" id="grossWeight" step="0.001" min="0" value="1.000">
+                </div>
+                <div class="input-group">
+                    <label>🔪 Peso Neto (kg):</label>
+                    <input type="number" id="netWeight" step="0.001" min="0" value="0.600">
+                </div>
+            </div>
+
+            <!-- Columna: Precio y moneda -->
+            <div class="input-card">
+                <h3>💰 2. Precio de Compra</h3>
+                <div class="input-group">
+                    <label>💲 Precio total pagado:</label>
+                    <input type="number" id="totalPrice" step="0.01" min="0" value="10.00">
+                </div>
+                <div class="input-group">
+                    <label>📌 Moneda del precio:</label>
+                    <select id="priceCurrency">
+                        <option value="USD" selected>💵 Dólar (USD)</option>
+                        <option value="VES">🇻🇪 Bolívar (VES)</option>
+                    </select>
+                </div>
+                <p style="font-size: 0.8rem; color: #666; margin-top: 10px;">
+                    <i>💡 Si pagaste en Bs., selecciona Bolívar.</i>
+                </p>
+            </div>
+
+            <!-- Resultados -->
+            <div class="results-card">
+                <h2>📊 Resultados para <span id="resultProductName">Pollo</span></h2>
+                <div class="results-grid">
+                    <div class="result-item">
+                        <div class="label">🧾 Merma</div>
+                        <div class="value" id="mermaPercent">40.00</div>
+                        <div class="currency">%</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="label">⚖️ Peso Neto</div>
+                        <div class="value" id="resultNetWeight">0.600</div>
+                        <div class="currency">kg</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="label">💲 Costo x kg (USD)</div>
+                        <div class="value" id="costPerKgUSD">16.67</div>
+                        <div class="currency">USD</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="label">🇻🇪 Costo x kg (VES)</div>
+                        <div class="value" id="costPerKgVES">1000.00</div>
+                        <div class="currency">Bs.</div>
+                    </div>
+                </div>
+                <p class="results-note">
+                    ✅ Costo real del kilo después de limpieza.
+                </p>
+            </div>
+        </div>
+
+        <!-- Productos de ejemplo -->
+        <div class="example-products">
+            <h3>🇻🇪 Productos venezolanos (ejemplos):</h3>
+            <div class="product-tags">
+                <span class="product-tag" onclick="loadExample('pollo')">🍗 Pollo (40%)</span>
+                <span class="product-tag" onclick="loadExample('platano')">🍌 Plátano (30%)</span>
+                <span class="product-tag" onclick="loadExample('pescado')">🐟 Pescado (45%)</span>
+                <span class="product-tag" onclick="loadExample('carne')">🥩 Carne (15%)</span>
+                <span class="product-tag" onclick="loadExample('papa')">🥔 Papa (20%)</span>
+                <span class="product-tag" onclick="loadExample('cebolla')">🧅 Cebolla (10%)</span>
+            </div>
+        </div>
+
+        <footer>
+            ⚡ Tasa obtenida de la API oficial (ve.dolarapi.com). Diseño adaptable.
+        </footer>
+    </div>
+
+    <script>
+        // Estado de la moneda seleccionada
+        let selectedCurrency = 'USD';
+
+        // Función para cambiar la moneda
+        window.setCurrency = function(currency) {
+            selectedCurrency = currency;
+            document.getElementById('usdOption').classList.remove('selected');
+            document.getElementById('vesOption').classList.remove('selected');
+            if (currency === 'USD') {
+                document.getElementById('usdOption').classList.add('selected');
+                document.getElementById('priceCurrency').value = 'USD';
+            } else {
+                document.getElementById('vesOption').classList.add('selected');
+                document.getElementById('priceCurrency').value = 'VES';
+            }
+            calculateMerma();
+        };
+
+        // Obtener tasa oficial desde la API
+        async function fetchOficialRate() {
+            const rateInput = document.getElementById('exchangeRate');
+            const rateDateSpan = document.getElementById('rateDate');
+            try {
+                const response = await fetch('https://ve.dolarapi.com/v1/dolares/oficial');
+                if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
+                const data = await response.json();
+                if (data && data.promedio) {
+                    rateInput.value = data.promedio.toFixed(2);
+                    const fecha = new Date(data.fechaActualizacion);
+                    rateDateSpan.innerText = `Actualizado: ${fecha.toLocaleString('es-VE')}`;
+                } else {
+                    rateDateSpan.innerText = 'No se pudo obtener la tasa';
+                }
+            } catch (error) {
+                console.error('Error al consultar la API:', error);
+                rateDateSpan.innerText = 'Error al conectar con la API';
+            }
+            calculateMerma();
+        }
+
+        // Cálculo principal
+        function calculateMerma() {
+            const product = document.getElementById('productName').value || 'Producto';
+            const gross = parseFloat(document.getElementById('grossWeight').value) || 0;
+            const net = parseFloat(document.getElementById('netWeight').value) || 0;
+            let price = parseFloat(document.getElementById('totalPrice').value) || 0;
+            const currency = document.getElementById('priceCurrency').value;
+            const exchangeRate = parseFloat(document.getElementById('exchangeRate').value) || 1;
+
+            if (gross <= 0 || net <= 0 || price < 0) {
+                document.getElementById('resultProductName').innerText = product;
+                document.getElementById('mermaPercent').innerText = '0.00';
+                document.getElementById('resultNetWeight').innerText = net.toFixed(3);
+                document.getElementById('costPerKgUSD').innerText = '0.00';
+                document.getElementById('costPerKgVES').innerText = '0.00';
+                return;
+            }
+
+            const merma = ((gross - net) / gross) * 100;
+            let priceUSD = price;
+            if (currency === 'VES') {
+                priceUSD = price / exchangeRate;
+            }
+
+            const costPerKgUSD = priceUSD / net;
+            const costPerKgVES = costPerKgUSD * exchangeRate;
+
+            document.getElementById('resultProductName').innerText = product;
+            document.getElementById('mermaPercent').innerText = merma.toFixed(2);
+            document.getElementById('resultNetWeight').innerText = net.toFixed(3);
+            document.getElementById('costPerKgUSD').innerText = costPerKgUSD.toFixed(2);
+            document.getElementById('costPerKgVES').innerText = costPerKgVES.toFixed(2);
+        }
+
+        // Cargar ejemplos
+        window.loadExample = function(type) {
+            const examples = {
+                pollo:   { name: 'Pollo',          gross: 1.0, net: 0.6, price: 8.00, currency: 'USD' },
+                platano: { name: 'Plátano Maduro', gross: 1.0, net: 0.7, price: 3.00, currency: 'USD' },
+                pescado: { name: 'Pescado (Pargo)',gros
