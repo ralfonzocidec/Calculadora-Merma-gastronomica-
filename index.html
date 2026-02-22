@@ -597,4 +597,39 @@
             const examples = {
                 pollo:   { name: 'Pollo',          gross: 1.0, net: 0.6, price: 8.00, currency: 'USD' },
                 platano: { name: 'Plátano Maduro', gross: 1.0, net: 0.7, price: 3.00, currency: 'USD' },
-                pescado: { name: 'Pescado (Pargo)',gros
+                pescado: { name: 'Pescado (Pargo)',gross: 1.0, net: 0.55, price: 12.00, currency: 'USD' },
+                carne:   { name: 'Carne (Muchacho)',gross: 1.0, net: 0.85, price: 9.00, currency: 'USD' },
+                papa:    { name: 'Papa',           gross: 1.0, net: 0.8, price: 2.50, currency: 'USD' },
+                cebolla: { name: 'Cebolla',        gross: 1.0, net: 0.9, price: 2.00, currency: 'USD' }
+            };
+            const ex = examples[type];
+            if (ex) {
+                document.getElementById('productName').value = ex.name;
+                document.getElementById('grossWeight').value = ex.gross.toFixed(3);
+                document.getElementById('netWeight').value = ex.net.toFixed(3);
+                document.getElementById('totalPrice').value = ex.price.toFixed(2);
+                document.getElementById('priceCurrency').value = ex.currency;
+                setCurrency(ex.currency);
+                calculateMerma();
+            }
+        };
+
+        // Event listeners
+        document.getElementById('updateRateBtn').addEventListener('click', fetchOficialRate);
+        document.getElementById('productName').addEventListener('input', calculateMerma);
+        document.getElementById('grossWeight').addEventListener('input', calculateMerma);
+        document.getElementById('netWeight').addEventListener('input', calculateMerma);
+        document.getElementById('totalPrice').addEventListener('input', calculateMerma);
+        document.getElementById('priceCurrency').addEventListener('change', function() {
+            setCurrency(this.value);
+            calculateMerma();
+        });
+        document.getElementById('exchangeRate').addEventListener('input', calculateMerma);
+
+        // Inicialización
+        window.onload = function() {
+            fetchOficialRate();
+        };
+    </script>
+</body>
+</html>
