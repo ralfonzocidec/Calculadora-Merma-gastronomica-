@@ -513,11 +513,14 @@
         </div>
 
         <footer>
-            ⚡ Tasa obtenida de la API oficial (ve.dolarapi.com). Diseño adaptable.
+            ⚡ Herramienta profesional para el control de costos.
         </footer>
     </div>
 
     <script>
+        // Deshabilitar clic derecho (protección básica)
+        document.addEventListener('contextmenu', event => event.preventDefault());
+
         // Estado de la moneda seleccionada
         let selectedCurrency = 'USD';
 
