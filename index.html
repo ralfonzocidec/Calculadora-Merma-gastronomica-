@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <!-- Esta metaetiqueta es clave para el responsive design -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
-    <title>Calculadora de Merma 🇻🇪 (Responsive + BCV)</title>
+    <title>Calculadora de Merma 🇻🇪 (Detalles completos)</title>
     <style>
         /* Reset y estilos base */
         * {
@@ -53,7 +53,7 @@
             font-size: clamp(0.9rem, 4vw, 1.1rem);
         }
 
-        /* Tarjeta de tasa de cambio - ahora vertical en móvil */
+        /* Tarjeta de tasa de cambio */
         .exchange-rate-card {
             background-color: #1e3c72;
             color: white;
@@ -123,7 +123,7 @@
             width: 100%;
         }
 
-        /* Selector de moneda horizontal, adaptable */
+        /* Selector de moneda */
         .currency-selector-wrapper {
             display: flex;
             justify-content: flex-end;
@@ -156,7 +156,7 @@
             border-color: #1e3c72;
         }
 
-        /* Grid de cálculo: en móvil 1 columna */
+        /* Grid de cálculo */
         .calculator-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -211,7 +211,7 @@
             outline: none;
         }
 
-        /* Tarjeta de resultados */
+        /* Tarjeta de resultados principal */
         .results-card {
             grid-column: span 2;
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
@@ -268,6 +268,50 @@
             font-size: 0.9rem;
         }
 
+        /* Nueva sección de detalles adicionales */
+        .details-card {
+            background: #f0f4fc;
+            border-radius: 28px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid #cbd5e0;
+        }
+        .details-title {
+            color: #1e3c72;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        .detail-item {
+            background: white;
+            padding: 12px 16px;
+            border-radius: 20px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+        }
+        .detail-item .label {
+            font-size: 0.85rem;
+            color: #4a5568;
+            margin-bottom: 4px;
+        }
+        .detail-item .value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #1e3c72;
+        }
+        .detail-item .sub {
+            font-size: 0.8rem;
+            color: #718096;
+            margin-left: 4px;
+        }
+
         /* Productos de ejemplo */
         .example-products {
             margin-top: 25px;
@@ -314,60 +358,51 @@
             font-size: 0.8rem;
         }
 
-        /* ===== MEDIA QUERIES PARA RESPONSIVE ===== */
+        /* Responsive */
         @media (max-width: 700px) {
             .container {
                 padding: 16px;
             }
-
             .calculator-grid {
-                grid-template-columns: 1fr; /* Una sola columna */
-                gap: 20px;
+                grid-template-columns: 1fr;
             }
-
             .results-card {
                 grid-column: span 1;
             }
-
             .results-grid {
-                grid-template-columns: repeat(2, 1fr); /* 2 columnas en resultados */
-                gap: 10px;
+                grid-template-columns: repeat(2, 1fr);
             }
-
             .exchange-rate-card {
                 flex-direction: column;
                 align-items: stretch;
                 border-radius: 30px;
                 padding: 20px;
             }
-
             .exchange-rate-card label {
                 white-space: normal;
                 text-align: center;
             }
-
             .rate-input-group {
                 flex-direction: column;
                 width: 100%;
             }
-
             .rate-input-group input {
                 width: 100%;
                 font-size: 1rem;
                 padding: 14px;
             }
-
             .rate-input-group button {
                 width: 100%;
                 padding: 14px;
             }
-
             .date-note {
                 text-align: center;
             }
-
             .currency-selector-wrapper {
                 justify-content: center;
+            }
+            .details-grid {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -375,35 +410,29 @@
             body {
                 padding: 8px;
             }
-
             .container {
                 padding: 12px;
                 border-radius: 24px;
             }
-
             h1 {
                 font-size: 1.8rem;
             }
-
             .result-item {
                 padding: 12px 4px;
             }
-
             .result-item .value {
                 font-size: 1.2rem;
             }
-
             .product-tag {
                 padding: 10px 12px;
                 font-size: 0.85rem;
-                flex: 1 1 100%; /* Ocupan todo el ancho si es necesario */
+                flex: 1 1 100%;
             }
         }
 
-        /* Ajuste para pantallas muy pequeñas (menos de 360px) */
         @media (max-width: 360px) {
             .results-grid {
-                grid-template-columns: 1fr; /* Una columna */
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -468,7 +497,7 @@
                 </p>
             </div>
 
-            <!-- Resultados -->
+            <!-- Resultados principales -->
             <div class="results-card">
                 <h2>📊 Resultados para <span id="resultProductName">Pollo</span></h2>
                 <div class="results-grid">
@@ -496,6 +525,43 @@
                 <p class="results-note">
                     ✅ Costo real del kilo después de limpieza.
                 </p>
+            </div>
+        </div>
+
+        <!-- NUEVO: Detalles adicionales (valor de la merma, costo por gramo, precios convertidos) -->
+        <div class="details-card">
+            <div class="details-title">🔍 Desglose detallado</div>
+            <div class="details-grid">
+                <div class="detail-item">
+                    <div class="label">💸 Valor de la merma (USD)</div>
+                    <div class="value" id="valorMermaUSD">4.00</div>
+                    <span class="sub">USD</span>
+                </div>
+                <div class="detail-item">
+                    <div class="label">💸 Valor de la merma (VES)</div>
+                    <div class="value" id="valorMermaVES">240.00</div>
+                    <span class="sub">Bs.</span>
+                </div>
+                <div class="detail-item">
+                    <div class="label">⚖️ Costo por gramo (USD)</div>
+                    <div class="value" id="costoGramoUSD">0.0167</div>
+                    <span class="sub">USD</span>
+                </div>
+                <div class="detail-item">
+                    <div class="label">⚖️ Costo por gramo (VES)</div>
+                    <div class="value" id="costoGramoVES">1.00</div>
+                    <span class="sub">Bs.</span>
+                </div>
+                <div class="detail-item">
+                    <div class="label">💲 Precio pagado (USD)</div>
+                    <div class="value" id="precioUSD">10.00</div>
+                    <span class="sub">USD</span>
+                </div>
+                <div class="detail-item">
+                    <div class="label">💲 Precio pagado (VES)</div>
+                    <div class="value" id="precioVES">600.00</div>
+                    <span class="sub">Bs.</span>
+                </div>
             </div>
         </div>
 
@@ -561,7 +627,7 @@
             calculateMerma();
         }
 
-        // Cálculo principal
+        // Cálculo principal (ahora incluye todos los detalles)
         function calculateMerma() {
             const product = document.getElementById('productName').value || 'Producto';
             const gross = parseFloat(document.getElementById('grossWeight').value) || 0;
@@ -570,29 +636,59 @@
             const currency = document.getElementById('priceCurrency').value;
             const exchangeRate = parseFloat(document.getElementById('exchangeRate').value) || 1;
 
+            // Si hay valores inválidos, mostrar ceros
             if (gross <= 0 || net <= 0 || price < 0) {
                 document.getElementById('resultProductName').innerText = product;
                 document.getElementById('mermaPercent').innerText = '0.00';
                 document.getElementById('resultNetWeight').innerText = net.toFixed(3);
                 document.getElementById('costPerKgUSD').innerText = '0.00';
                 document.getElementById('costPerKgVES').innerText = '0.00';
+                // Detalles a cero
+                document.getElementById('valorMermaUSD').innerText = '0.00';
+                document.getElementById('valorMermaVES').innerText = '0.00';
+                document.getElementById('costoGramoUSD').innerText = '0.0000';
+                document.getElementById('costoGramoVES').innerText = '0.00';
+                document.getElementById('precioUSD').innerText = '0.00';
+                document.getElementById('precioVES').innerText = '0.00';
                 return;
             }
 
+            // Cálculos básicos
             const merma = ((gross - net) / gross) * 100;
+            
+            // Precio en USD (siempre)
             let priceUSD = price;
             if (currency === 'VES') {
                 priceUSD = price / exchangeRate;
             }
+            const priceVES = (currency === 'USD') ? price * exchangeRate : price;
 
+            // Costos por kg neto
             const costPerKgUSD = priceUSD / net;
             const costPerKgVES = costPerKgUSD * exchangeRate;
 
+            // Costos por gramo
+            const costoGramoUSD = costPerKgUSD / 1000;
+            const costoGramoVES = costPerKgVES / 1000;
+
+            // Valor de la merma (lo que se pierde en dinero)
+            const valorMermaUSD = priceUSD * (merma / 100);
+            const valorMermaVES = valorMermaUSD * exchangeRate;
+
+            // Actualizar elementos principales
             document.getElementById('resultProductName').innerText = product;
             document.getElementById('mermaPercent').innerText = merma.toFixed(2);
             document.getElementById('resultNetWeight').innerText = net.toFixed(3);
             document.getElementById('costPerKgUSD').innerText = costPerKgUSD.toFixed(2);
             document.getElementById('costPerKgVES').innerText = costPerKgVES.toFixed(2);
+
+            // Actualizar detalles
+            document.getElementById('valorMermaUSD').innerText = valorMermaUSD.toFixed(2);
+            document.getElementById('valorMermaVES').innerText = valorMermaVES.toFixed(2);
+            document.getElementById('costoGramoUSD').innerText = costoGramoUSD.toFixed(4);
+            document.getElementById('costoGramoVES').innerText = costoGramoVES.toFixed(2);
+            document.getElementById('precioUSD').innerText = priceUSD.toFixed(2);
+            document.getElementById('precioVES').innerText = priceVES.toFixed(2);
         }
 
         // Cargar ejemplos
