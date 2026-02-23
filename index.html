@@ -2,11 +2,9 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <!-- Esta metaetiqueta es clave para el responsive design -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
-    <title>Calculadora de Merma (Detalles completos)</title>
+    <title>Calculadora de Merma 🇻🇪 (Sin costo neto)</title>
     <style>
-        /* Reset y estilos base */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -34,7 +32,6 @@
             transition: all 0.3s ease;
         }
 
-        /* Tipografía responsive */
         h1 {
             color: #1e3c72;
             text-align: center;
@@ -53,7 +50,6 @@
             font-size: clamp(0.9rem, 4vw, 1.1rem);
         }
 
-        /* Tarjeta de tasa de cambio */
         .exchange-rate-card {
             background-color: #1e3c72;
             color: white;
@@ -123,7 +119,6 @@
             width: 100%;
         }
 
-        /* Selector de moneda */
         .currency-selector-wrapper {
             display: flex;
             justify-content: flex-end;
@@ -156,7 +151,6 @@
             border-color: #1e3c72;
         }
 
-        /* Grid de cálculo */
         .calculator-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -211,7 +205,6 @@
             outline: none;
         }
 
-        /* Tarjeta de resultados principal */
         .results-card {
             grid-column: span 2;
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
@@ -268,7 +261,6 @@
             font-size: 0.9rem;
         }
 
-        /* Nueva sección de detalles adicionales */
         .details-card {
             background: #f0f4fc;
             border-radius: 28px;
@@ -312,7 +304,6 @@
             margin-left: 4px;
         }
 
-        /* Productos de ejemplo */
         .example-products {
             margin-top: 25px;
             border-top: 2px solid #e9ecef;
@@ -358,82 +349,19 @@
             font-size: 0.8rem;
         }
 
-        /* Responsive */
         @media (max-width: 700px) {
-            .container {
-                padding: 16px;
-            }
-            .calculator-grid {
-                grid-template-columns: 1fr;
-            }
-            .results-card {
-                grid-column: span 1;
-            }
-            .results-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .exchange-rate-card {
-                flex-direction: column;
-                align-items: stretch;
-                border-radius: 30px;
-                padding: 20px;
-            }
-            .exchange-rate-card label {
-                white-space: normal;
-                text-align: center;
-            }
-            .rate-input-group {
-                flex-direction: column;
-                width: 100%;
-            }
-            .rate-input-group input {
-                width: 100%;
-                font-size: 1rem;
-                padding: 14px;
-            }
-            .rate-input-group button {
-                width: 100%;
-                padding: 14px;
-            }
-            .date-note {
-                text-align: center;
-            }
-            .currency-selector-wrapper {
-                justify-content: center;
-            }
-            .details-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 480px) {
-            body {
-                padding: 8px;
-            }
-            .container {
-                padding: 12px;
-                border-radius: 24px;
-            }
-            h1 {
-                font-size: 1.8rem;
-            }
-            .result-item {
-                padding: 12px 4px;
-            }
-            .result-item .value {
-                font-size: 1.2rem;
-            }
-            .product-tag {
-                padding: 10px 12px;
-                font-size: 0.85rem;
-                flex: 1 1 100%;
-            }
-        }
-
-        @media (max-width: 360px) {
-            .results-grid {
-                grid-template-columns: 1fr;
-            }
+            .container { padding: 16px; }
+            .calculator-grid { grid-template-columns: 1fr; }
+            .results-card { grid-column: span 1; }
+            .results-grid { grid-template-columns: repeat(2, 1fr); }
+            .exchange-rate-card { flex-direction: column; align-items: stretch; border-radius: 30px; padding: 20px; }
+            .exchange-rate-card label { white-space: normal; text-align: center; }
+            .rate-input-group { flex-direction: column; width: 100%; }
+            .rate-input-group input { width: 100%; }
+            .rate-input-group button { width: 100%; }
+            .date-note { text-align: center; }
+            .currency-selector-wrapper { justify-content: center; }
+            .details-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -442,7 +370,6 @@
         <h1>🧮 Calculadora de Merma</h1>
         <div class="subtitle">🇻🇪 Para la Cocina Venezolana (Tasa BCV) 🇻🇪</div>
 
-        <!-- Tasa de cambio obtenida automáticamente desde la API oficial -->
         <div class="exchange-rate-card">
             <label>💵 Tasa USD / VES (BCV oficial):</label>
             <div class="rate-input-group">
@@ -452,16 +379,13 @@
             <span id="rateDate" class="date-note">Cargando tasa...</span>
         </div>
 
-        <!-- Selector rápido de moneda para ingresar precio -->
         <div class="currency-selector-wrapper">
             <span>Precio de compra en:</span>
             <span id="usdOption" class="currency-option selected" onclick="setCurrency('USD')">💵 USD</span>
             <span id="vesOption" class="currency-option" onclick="setCurrency('VES')">🇻🇪 Bs.</span>
         </div>
 
-        <!-- Área principal de cálculo -->
         <div class="calculator-grid">
-            <!-- Columna: Datos del producto -->
             <div class="input-card">
                 <h3>📦 1. Datos del Producto</h3>
                 <div class="input-group">
@@ -478,7 +402,6 @@
                 </div>
             </div>
 
-            <!-- Columna: Precio y moneda -->
             <div class="input-card">
                 <h3>💰 2. Precio de Compra</h3>
                 <div class="input-group">
@@ -497,7 +420,6 @@
                 </p>
             </div>
 
-            <!-- Resultados principales -->
             <div class="results-card">
                 <h2>📊 Resultados para <span id="resultProductName">Pollo</span></h2>
                 <div class="results-grid">
@@ -507,50 +429,49 @@
                         <div class="currency">%</div>
                     </div>
                     <div class="result-item">
-                        <div class="label">⚖️ Peso Neto</div>
-                        <div class="value" id="resultNetWeight">0.600</div>
-                        <div class="currency">kg</div>
+                        <div class="label">⚖️ Rendimiento</div>
+                        <div class="value" id="rendimiento">60.0</div>
+                        <div class="currency">%</div>
                     </div>
                     <div class="result-item">
-                        <div class="label">💲 Costo x kg (USD)</div>
-                        <div class="value" id="costPerKgUSD">16.67</div>
+                        <div class="label">💰 Costo x kg bruto</div>
+                        <div class="value" id="costPerKgBrutoUSD">10.00</div>
                         <div class="currency">USD</div>
                     </div>
                     <div class="result-item">
-                        <div class="label">🇻🇪 Costo x kg (VES)</div>
-                        <div class="value" id="costPerKgVES">1000.00</div>
-                        <div class="currency">Bs.</div>
+                        <div class="label">💸 Valor merma</div>
+                        <div class="value" id="valorMermaPrincipal">4.00</div>
+                        <div class="currency">USD</div>
                     </div>
                 </div>
                 <p class="results-note">
-                    ✅ Costo real del kilo después de limpieza.
+                    ✅ Valor de la merma = Precio total × (% Merma / 100)
                 </p>
             </div>
         </div>
 
-        <!-- NUEVO: Detalles adicionales (valor de la merma, costo por gramo, precios convertidos) -->
         <div class="details-card">
-            <div class="details-title">🔍 Desglose detallado</div>
+            <div class="details-title">🔍 Desglose completo</div>
             <div class="details-grid">
                 <div class="detail-item">
-                    <div class="label">💸 Valor de la merma (USD)</div>
+                    <div class="label">💸 Valor merma (USD)</div>
                     <div class="value" id="valorMermaUSD">4.00</div>
                     <span class="sub">USD</span>
                 </div>
                 <div class="detail-item">
-                    <div class="label">💸 Valor de la merma (VES)</div>
+                    <div class="label">💸 Valor merma (VES)</div>
                     <div class="value" id="valorMermaVES">240.00</div>
                     <span class="sub">Bs.</span>
                 </div>
                 <div class="detail-item">
-                    <div class="label">⚖️ Costo por gramo (USD)</div>
-                    <div class="value" id="costoGramoUSD">0.0167</div>
-                    <span class="sub">USD</span>
+                    <div class="label">⚖️ Costo bruto (USD/kg)</div>
+                    <div class="value" id="costPerKgBrutoUSDDet">10.00</div>
+                    <span class="sub">USD/kg</span>
                 </div>
                 <div class="detail-item">
-                    <div class="label">⚖️ Costo por gramo (VES)</div>
-                    <div class="value" id="costoGramoVES">1.00</div>
-                    <span class="sub">Bs.</span>
+                    <div class="label">⚖️ Costo bruto (VES/kg)</div>
+                    <div class="value" id="costPerKgBrutoVES">600.00</div>
+                    <span class="sub">Bs/kg</span>
                 </div>
                 <div class="detail-item">
                     <div class="label">💲 Precio pagado (USD)</div>
@@ -562,10 +483,19 @@
                     <div class="value" id="precioVES">600.00</div>
                     <span class="sub">Bs.</span>
                 </div>
+                <div class="detail-item">
+                    <div class="label">⚖️ Costo por gramo bruto (USD)</div>
+                    <div class="value" id="costoGramoBrutoUSD">0.0100</div>
+                    <span class="sub">USD/g</span>
+                </div>
+                <div class="detail-item">
+                    <div class="label">⚖️ Costo por gramo bruto (VES)</div>
+                    <div class="value" id="costoGramoBrutoVES">0.60</div>
+                    <span class="sub">Bs/g</span>
+                </div>
             </div>
         </div>
 
-        <!-- Productos de ejemplo -->
         <div class="example-products">
             <h3>🇻🇪 Productos venezolanos (ejemplos):</h3>
             <div class="product-tags">
@@ -584,13 +514,10 @@
     </div>
 
     <script>
-        // Deshabilitar clic derecho (protección básica)
         document.addEventListener('contextmenu', event => event.preventDefault());
 
-        // Estado de la moneda seleccionada
         let selectedCurrency = 'USD';
 
-        // Función para cambiar la moneda
         window.setCurrency = function(currency) {
             selectedCurrency = currency;
             document.getElementById('usdOption').classList.remove('selected');
@@ -605,7 +532,6 @@
             calculateMerma();
         };
 
-        // Obtener tasa oficial desde la API
         async function fetchOficialRate() {
             const rateInput = document.getElementById('exchangeRate');
             const rateDateSpan = document.getElementById('rateDate');
@@ -627,7 +553,6 @@
             calculateMerma();
         }
 
-        // Cálculo principal (ahora incluye todos los detalles)
         function calculateMerma() {
             const product = document.getElementById('productName').value || 'Producto';
             const gross = parseFloat(document.getElementById('grossWeight').value) || 0;
@@ -636,62 +561,60 @@
             const currency = document.getElementById('priceCurrency').value;
             const exchangeRate = parseFloat(document.getElementById('exchangeRate').value) || 1;
 
-            // Si hay valores inválidos, mostrar ceros
             if (gross <= 0 || net <= 0 || price < 0) {
                 document.getElementById('resultProductName').innerText = product;
                 document.getElementById('mermaPercent').innerText = '0.00';
-                document.getElementById('resultNetWeight').innerText = net.toFixed(3);
-                document.getElementById('costPerKgUSD').innerText = '0.00';
-                document.getElementById('costPerKgVES').innerText = '0.00';
-                // Detalles a cero
+                document.getElementById('rendimiento').innerText = '0.0';
+                document.getElementById('costPerKgBrutoUSD').innerText = '0.00';
+                document.getElementById('valorMermaPrincipal').innerText = '0.00';
+                // Detalles
                 document.getElementById('valorMermaUSD').innerText = '0.00';
                 document.getElementById('valorMermaVES').innerText = '0.00';
-                document.getElementById('costoGramoUSD').innerText = '0.0000';
-                document.getElementById('costoGramoVES').innerText = '0.00';
+                document.getElementById('costPerKgBrutoUSDDet').innerText = '0.00';
+                document.getElementById('costPerKgBrutoVES').innerText = '0.00';
                 document.getElementById('precioUSD').innerText = '0.00';
                 document.getElementById('precioVES').innerText = '0.00';
+                document.getElementById('costoGramoBrutoUSD').innerText = '0.0000';
+                document.getElementById('costoGramoBrutoVES').innerText = '0.00';
                 return;
             }
 
-            // Cálculos básicos
             const merma = ((gross - net) / gross) * 100;
+            const rendimiento = (net / gross) * 100;
             
-            // Precio en USD (siempre)
             let priceUSD = price;
             if (currency === 'VES') {
                 priceUSD = price / exchangeRate;
             }
             const priceVES = (currency === 'USD') ? price * exchangeRate : price;
 
-            // Costos por kg neto
-            const costPerKgUSD = priceUSD / net;
-            const costPerKgVES = costPerKgUSD * exchangeRate;
+            const costPerKgBrutoUSD = priceUSD / gross;
+            const costPerKgBrutoVES = priceVES / gross;
 
-            // Costos por gramo
-            const costoGramoUSD = costPerKgUSD / 1000;
-            const costoGramoVES = costPerKgVES / 1000;
-
-            // Valor de la merma (lo que se pierde en dinero)
             const valorMermaUSD = priceUSD * (merma / 100);
             const valorMermaVES = valorMermaUSD * exchangeRate;
 
-            // Actualizar elementos principales
+            const costoGramoBrutoUSD = costPerKgBrutoUSD / 1000;
+            const costoGramoBrutoVES = costPerKgBrutoVES / 1000;
+
+            // Resultados principales
             document.getElementById('resultProductName').innerText = product;
             document.getElementById('mermaPercent').innerText = merma.toFixed(2);
-            document.getElementById('resultNetWeight').innerText = net.toFixed(3);
-            document.getElementById('costPerKgUSD').innerText = costPerKgUSD.toFixed(2);
-            document.getElementById('costPerKgVES').innerText = costPerKgVES.toFixed(2);
-
-            // Actualizar detalles
+            document.getElementById('rendimiento').innerText = rendimiento.toFixed(1);
+            document.getElementById('costPerKgBrutoUSD').innerText = costPerKgBrutoUSD.toFixed(2);
+            document.getElementById('valorMermaPrincipal').innerText = valorMermaUSD.toFixed(2);
+            
+            // Detalles (sin costo neto)
             document.getElementById('valorMermaUSD').innerText = valorMermaUSD.toFixed(2);
             document.getElementById('valorMermaVES').innerText = valorMermaVES.toFixed(2);
-            document.getElementById('costoGramoUSD').innerText = costoGramoUSD.toFixed(4);
-            document.getElementById('costoGramoVES').innerText = costoGramoVES.toFixed(2);
+            document.getElementById('costPerKgBrutoUSDDet').innerText = costPerKgBrutoUSD.toFixed(2);
+            document.getElementById('costPerKgBrutoVES').innerText = costPerKgBrutoVES.toFixed(2);
             document.getElementById('precioUSD').innerText = priceUSD.toFixed(2);
             document.getElementById('precioVES').innerText = priceVES.toFixed(2);
+            document.getElementById('costoGramoBrutoUSD').innerText = costoGramoBrutoUSD.toFixed(4);
+            document.getElementById('costoGramoBrutoVES').innerText = costoGramoBrutoVES.toFixed(2);
         }
 
-        // Cargar ejemplos
         window.loadExample = function(type) {
             const examples = {
                 pollo:   { name: 'Pollo',          gross: 1.0, net: 0.6, price: 8.00, currency: 'USD' },
@@ -713,7 +636,6 @@
             }
         };
 
-        // Event listeners
         document.getElementById('updateRateBtn').addEventListener('click', fetchOficialRate);
         document.getElementById('productName').addEventListener('input', calculateMerma);
         document.getElementById('grossWeight').addEventListener('input', calculateMerma);
@@ -725,7 +647,6 @@
         });
         document.getElementById('exchangeRate').addEventListener('input', calculateMerma);
 
-        // Inicialización
         window.onload = function() {
             fetchOficialRate();
         };
